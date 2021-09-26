@@ -1,0 +1,55 @@
+
+buildscript {
+    ext {
+        springBootVersion = '2.1.4.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+// apply plugin: 'spring-boot'
+
+group = 'com.kviz.library'
+version = '0.0.1-SNAPSHOT'
+
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+}
+
+ext['hibernate.version'] = '5.5.7.Final'
+
+configurations {
+    providedRuntime
+    compile.exclude module: 'spring-boot-starter-tomcat'// исключаем Tomcat, т.к. мы используем GlassFish
+
+}
+
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa:+')
+    implementation('org.springframework.boot:spring-boot-starter-web:+')
+    implementation('org.springframework.boot:spring-boot-starter-security:+')
+    implementation("org.springframework.boot:spring-boot-starter-actuator:+")
+    implementation("org.springframework.boot:spring-boot-starter-aop:+")
+
+    implementation 'org.projectlombok:lombok:+'
+    implementation 'com.google.guava:guava:+'
+
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
+    providedCompile 'javax:javaee-api:7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
